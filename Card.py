@@ -1,16 +1,24 @@
 from constant import *
+import random
 class Game: 
-    def __init__(self,player1,player2,player3,player4):
-        self.player1 = player1
-        self.player2 = player2
-        self.player3 = player3
-        self.player4 = player4
+    def __init__(self,deck):
+        self.player1 = None
+        self.player2 = None
+        self.admin = []
+        self.deck = deck 
+    def shuffle(self):
+        self.admin= []
+        for x in self.deck:
+            self.admin.append(x)
+        random.shuffle(self.admin)
+        return self.admin
+    
     
 class Deck: 
     def __init__(self,cards):
         self.cards = cards
     def total_cards(self): #todas las cartas que lleva un deck
-        return self.cards , "{} - cards deck".format(len(self.cards))
+        return self.cards 
     def each_card(self): # Cada carta organizada en por su Suits
         Clubs= []
         Diamonds = []
@@ -26,7 +34,8 @@ class Deck:
             else:
                 Spades.append(x)
         return Clubs, Diamonds, Hearts, Spades
-       
+    
+        
 class Cards:
     def __init__(self,Values,Suits): # Lo que tiene una carta
         self.Values = Values
@@ -38,10 +47,8 @@ class Cards:
                deck.append(suit + ' - {} ' .format(value) )
        return deck
 
-cards = Cards(Values,Suits)
-deck = Deck(cards.cards())
 
-print(deck.total_cards())
+
 
 
 
