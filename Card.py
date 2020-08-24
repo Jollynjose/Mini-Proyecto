@@ -1,19 +1,32 @@
 from constant import *
 import random
+# num_players = int(input('how much players going to play?  '))
 class Game: 
     def __init__(self,deck):
-        self.player1 = None
-        self.player2 = None
-        self.admin = []
         self.deck = deck 
+        self.player1 = []
+        self.player2 = []
+        self.table= []
+        self.game_deck = []
     def shuffle(self):
-        self.admin= []
+        self.game_deck= []
         for x in self.deck:
-            self.admin.append(x)
-        random.shuffle(self.admin)
-        return self.admin
-    
-    
+            self.game_deck.append(x)
+        random.shuffle(self.game_deck)
+    def deal_cards(self):
+        while self.game_deck:
+            if len(self.player1) < 4 and len(self.player2) < 4:
+                self.player1.append(self.game_deck.pop())
+                self.player2.append(self.game_deck.pop())
+            else:
+                break
+    def game_table(self):
+        while self.game_deck:
+            if len(self.table) == 4:
+                break
+            else:
+                self.table.append(self.game_deck.pop())
+
 class Deck: 
     def __init__(self,cards):
         self.cards = cards
@@ -47,7 +60,10 @@ class Cards:
                deck.append(suit + ' - {} ' .format(value) )
        return deck
 
+cards = Cards(Values,Suits)
+deck = Deck(cards.cards())
 
+Newgame = Game(deck.total_cards())
 
 
 
