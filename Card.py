@@ -1,4 +1,4 @@
-from constant import *
+from constants import *
 import random
 class Deck: 
     def __init__(self,cards):
