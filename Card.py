@@ -1,85 +1,68 @@
 from constant import *
 import random
-# num_players = int(input('how much players going to play?  '))
-class Game: 
-    def __init__(self,deck):
-        self.deck = deck 
-        self.player1 = []
-        self.player2 = []
-        self.table= []
-        self.game_deck = []
-    def shuffle(self):
-        self.game_deck= []
-        for x in self.deck:
-            self.game_deck.append(x)
-        random.shuffle(self.game_deck)
-    def deal_cards(self):
-        while self.game_deck:
-            if len(self.player1) < 4 and len(self.player2) < 4:
-                self.player1.append(self.game_deck.pop())
-                self.player2.append(self.game_deck.pop())
-            else:
-                break
-    def game_table(self):
-        while self.game_deck:
-            if len(self.table) == 4:
-                break
-            else:
-                self.table.append(self.game_deck.pop())
-
 class Deck: 
     def __init__(self,cards):
         self.cards = cards
-    def total_cards(self): #todas las cartas que lleva un deck
-        return self.cards 
-    def each_card(self): # Cada carta organizada en por su Suits
-        Clubs= []
-        Diamonds = []
-        Hearts = []
-        Spades = []
-        for x in self.cards:
-            if "Club" in x:
-                Clubs.append(x)
-            elif "Diamond" in x:
-                Diamonds.append(x)
-            elif "Heart" in x :
-                Hearts.append(x)
-            else:
-                Spades.append(x)
-        return Clubs, Diamonds, Hearts, Spades
-    
-        
+    def create_deck(self): #todas las cartas que lleva un deck
+        suits , values = self.cards
+        deck = []
+        for suit in suits:
+            for value in values:
+                deck.append([suit,value])
+        return deck
+
 class Cards:
     def __init__(self,Values,Suits): # Lo que tiene una carta
         self.Values = Values
         self.Suits = Suits
-    def cards(self): #Creación de cartas
-       deck = []
-       for value in self.Values:
-           for suit in self.Suits:
-               deck.append(suit + ' - {} ' .format(value) )
-       return deck
+    def card(self):
+        cards = self.Suits, self.Values
+        return cards
+
+class Game_of_two : 
+    def __init__(self,deck):
+        self.deck = deck 
+    def shuffle_cards(self):
+        shuffle = []
+        shuffle = self.deck
+        random.shuffle(shuffle)
+        return shuffle
+    def game_table(self):
+        table = []
+        for x in range(4):
+            table.append(self.deck[x])
+            del self.deck[x]
+        return table
+    def players_deck_of_card(self):
+        player1 = []
+        player2 = []
+        for x in range(4):
+            player1.append(self.deck[x])
+            del self.deck[x]
+            player2.append(self.deck[x])
+            del self.deck[x]
+        return player1, player2
+
+class Player:
+    def __init__(self,name,deck_of_cards):
+        self.name = name
+        self.deck_of_cards = deck_of_cards
+        self.deck_of_cards_points = [] #Search a better name
+    def __str__(self):
+        return self.name, self.deck_of_cards , len(self.deck_of_cards_points)
+        
+
+        
+
 
 cards = Cards(Values,Suits)
-deck = Deck(cards.cards())
-
-Newgame = Game(deck.total_cards())
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-    
-
+deck = Deck(cards.card())
+Game = Game_of_two(deck.create_deck())
+Game.shuffle_cards()
+Game.game_table()
+player1_deck_of_card , player2_deck_of_card = Game.players_deck_of_card()
+player1 = Player("Jimmy",player1_deck_of_card)
+player2 = Player('Peter',player2_deck_of_card)
+print(player1.__str__())
 
 
