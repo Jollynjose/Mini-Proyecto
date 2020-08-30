@@ -1,4 +1,4 @@
-from constant import *
+from constants import *
 import random
 # num_players = int(input('how much players going to play?  '))
 class Cards:
@@ -9,7 +9,7 @@ class Cards:
        deck = []
        for value in self.Values:
            for suit in self.Suits:
-               deck.append(suit + ' - {} ' .format(value) )
+               deck.append([suit,value])
        return deck
 class Deck: 
     def __init__(self,cards):
@@ -47,7 +47,6 @@ class properties_of_cards:
             c.append(x)
         random.shuffle(c)
         for y in c:
-            u = y.split('-')
             self.game_deck.append(u)
         return self.game_table
 
@@ -79,8 +78,8 @@ class Player:
     def __init__(self,name,mazo):
         self.name = name
         self.mazo = mazo
-        self.deck = []
-    def Presetation(self):
+        self.deck = [] #TODO: search a better name
+    def __str__(self):
         return self.name, self.mazo, self.deck
 
         
