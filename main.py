@@ -1,8 +1,5 @@
 from Card import *
 from constant import*
-Newgame.shuffle()
-Newgame.deal_cards()
-Newgame.game_table()
 
 
 
