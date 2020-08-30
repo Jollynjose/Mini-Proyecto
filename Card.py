@@ -1,32 +1,16 @@
 from constant import *
 import random
 # num_players = int(input('how much players going to play?  '))
-class Game: 
-    def __init__(self,deck):
-        self.deck = deck 
-        self.player1 = []
-        self.player2 = []
-        self.table= []
-        self.game_deck = []
-    def shuffle(self):
-        self.game_deck= []
-        for x in self.deck:
-            self.game_deck.append(x)
-        random.shuffle(self.game_deck)
-    def deal_cards(self):
-        while self.game_deck:
-            if len(self.player1) < 4 and len(self.player2) < 4:
-                self.player1.append(self.game_deck.pop())
-                self.player2.append(self.game_deck.pop())
-            else:
-                break
-    def game_table(self):
-        while self.game_deck:
-            if len(self.table) == 4:
-                break
-            else:
-                self.table.append(self.game_deck.pop())
-
+class Cards:
+    def __init__(self,Values,Suits): # Lo que tiene una carta
+        self.Values = Values
+        self.Suits = Suits
+    def cards(self): #Creación de cartas
+       deck = []
+       for value in self.Values:
+           for suit in self.Suits:
+               deck.append(suit + ' - {} ' .format(value) )
+       return deck
 class Deck: 
     def __init__(self,cards):
         self.cards = cards
@@ -48,38 +32,67 @@ class Deck:
                 Spades.append(x)
         return Clubs, Diamonds, Hearts, Spades
     
-        
-class Cards:
-    def __init__(self,Values,Suits): # Lo que tiene una carta
-        self.Values = Values
-        self.Suits = Suits
-    def cards(self): #Creación de cartas
-       deck = []
-       for value in self.Values:
-           for suit in self.Suits:
-               deck.append(suit + ' - {} ' .format(value) )
-       return deck
 
+class properties_of_cards: 
+    def __init__(self,deck):
+        self.deck = deck 
+        self.player1 = []
+        self.player2 = []
+        self.table= []
+        self.game_deck = []
+        self.playerturn = 1
+    def shuffle_card(self):
+        c = []
+        for x in self.deck:
+            c.append(x)
+        random.shuffle(c)
+        for y in c:
+            u = y.split('-')
+            self.game_deck.append(u)
+        return self.game_table
+
+    def deal_cards(self):
+        count = 0
+        for x in range(len(self.game_deck)):
+            if self.game_deck:
+                if count == 4:
+                    break
+                self.player1.append(self.game_deck[x])
+                del self.game_deck[x]
+                self.player2.append(self.game_deck[x])
+                del self.game_deck[x]
+            else:
+                break
+            count = count + 1
+
+    def game_table(self):
+        for x in range(4):
+            self.table.append(self.game_deck.pop())
+        return self.table
+    def turn(self):
+        if self.playerturn == 1:
+            self.playerturn = 0
+        else:
+            self.playerturn = 1 
+        return self.playerturn
+class Player:
+    def __init__(self,name,mazo):
+        self.name = name
+        self.mazo = mazo
+        self.deck = []
+    def Presetation(self):
+        return self.name, self.mazo, self.deck
+
+        
+        
 cards = Cards(Values,Suits)
 deck = Deck(cards.cards())
+properties = properties_of_cards(deck.total_cards())
 
-Newgame = Game(deck.total_cards())
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-    
+# player1 = Player(' {} - Player 1'.format(input("Escriba su nombre Jugador 1 : " )), propieties.player1)
+# player2 = Player(' {} - Player 2'.format(input("Escriba su nombre Jugador 2 : " )), propieties.player2)
+player1 = Player('Peter', properties.player1)
+player2 = Player('jimmy', properties.player2)
 
 
 
