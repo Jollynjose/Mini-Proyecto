@@ -1,75 +1,87 @@
 from Card import *
-from constant import*
+from Game import *
+from Deck import *
+from Player import *
+from constants import *
 
-print('Casino, Juego de cartas')
-print('Reglas:')
-print('1 - las cartas se cuenta desde 0 no desde 1 ( el conteo sería: carta 1(0), carta 2(1), etc-')
-count = 0
-# while True:
-#     if count < 2 :
-#         ##Shift System
-#         properties.turn()
-#         if properties.playerturn == 0: 
-#             player= player1.name
-#             player_mazo = player1.mazo
-#             player_deck_points= player1.deck
-#         else:
-#             player= player2.name
-#             player_mazo = player2.mazo
-#             player_deck_points= player2.deck
-#         #Start Game
-#         print('Digite la acción que quiera realizar en este juego : ')
-#         print('Digite 1 para Descartar Carta, ', 'Digite 2 para Tomar Carta, ', 'Digite 3 para duplicar Carta, ', 'Digite 4 para incrementar una contruccion, ')
-#         print('Mesa del Juego ', list(enumerate(properties.table)))
-#         print('Su Mazo',list(enumerate(player_mazo)))
-#         user = int(input())
-#         if user == 1:
-#             print('Cual carta desea descartar?')
-#             select = int(input())
-#             properties.table.append(player_mazo[select])
-#             del player_mazo[select]
-#         elif user == 2:
-#             print('Cual carta desea tomar?')
-#             for x in range(len(properties.table)):
-#                 select = int(input())
-#                 select2 = int(input())
-#                 if int(player_mazo[select][1]) == int(properties.table[select2][1]):
-#                     player_deck_points.append(player_mazo[select])
-#                     player_deck_points.append(properties.table[select2])
-#                     del player_mazo[select]
-#                     del properties.table[select2]
-#                     break
-#                 else:
-#                     print('La carta que usted quiere tomar no son compatibles, por favor seleccione bien su carta')
+class Play:
+    def __init__(self):
+        self.cards = Cards(Values, Suits)
+        self.deck = Deck(self.cards.card())
+        self.Game = Game_of_two(self.deck.initialize())
+        self.Game.shuffle_cards()
+        self.table = self.Game.create_table().cards
+        self.player1_deck_of_card, self.player2_deck_of_card = self.Game.players_deck_of_card()
+        self.playerOne = Player("Jimmy", self.player1_deck_of_card)
+        self.playerTwo = Player('Peter', self.player2_deck_of_card)
+    def run(self):
+        while True:
+            self.next_play(self.playerOne)
+            self.next_play(self.playerTwo)
+            break
 
+            if self.no_more_cards():
+                break
 
-#         # for cards_in_player in range(len(player_mazo)):
-#         #     for cards_on_table in range(len(properties.table)):
-#         #         if int(player_mazo[cards_in_player][1]) == int(properties.table[cards_on_table][1]):
-#         #             player_deck_points.append(player_mazo[cards_in_player])
-#         #             player_deck_points.append(properties.table[cards_on_table])
-#         #             del player_mazo[cards_in_player]
-#         #             del properties.table[cards_on_table]
-#         #             break
-#         #         else:
-#         #             properties.table.append(player_mazo[cards_in_player])
-#         #             del player_mazo[cards_in_player]
-#         #             break
-#         #     break
-#         count = count + 1
-#     else:
-#         break
+        # check winner
+        # calculate_points(player1) 
+        # calculate_points(player2) 
 
-                
-                    
-print(player1.mazo,player2.mazo,properties.table)
-
-
-
-
-
-
+    # make player moves
+    def next_play(self,player):
+        while True:
+            print(self.table)
+            print(player.name,list(enumerate(player.deck_of_cards)))
+            print('Digite 1 para Descartar Carta, ', 'Digite 2 para Tomar Carta, ', 'Digite 3 para duplicar Carta, ', 'Digite 4 para incrementar una contruccion, ')
+            user = int(input('Digite la jugada que quiera realizar : '))
+            if user == 1: ## Descartar carta
+                print('Digite 0 si desea cambiar la jugada, ','Digite 1 si desea continuar')
+                user_action = int(input('Que acción tomara? : '))
+                if user_action == 1:
+                    print(player.name,list(enumerate(player.deck_of_cards)))
+                    user_action = int(input('Que carta desea descartar?? : '))
+                    self.table.append(player.deck_of_cards[user_action])
+                    del player.deck_of_cards[user_action]
+                    print(player.deck_of_cards,self.table)
+                    break
+                else:
+                    pass
+            elif user == 2: #Tomar carta
+                while True:
+                    print('Digite 0 si desea cambiar la jugada, ','Digite 1 si desea continuar')
+                    user_action = int(input('Que acción tomara? : '))
+                    if user_action == 1: 
+                   
+                        print('Mesa de Juego',list(enumerate(self.table)))
+                        print(player.name,list(enumerate(player.deck_of_cards)))
+                        user_action = int(input('Que carta desea tomar de la mesa? : '))
+                        user_actionTwo = int(input('Cual carta usted desea utilizar? : '))
+                        if self.table[user_action][1] == player.deck_of_cards[user_actionTwo][1]:
+                            player.deck_of_cards_grabbed.append(self.table[user_action])
+                            player.deck_of_cards_grabbed.append(player.deck_of_cards[user_actionTwo])
+                            del player.deck_of_cards[user_actionTwo]
+                            del self.table[user_action]
+                            print(player.deck_of_cards_grabbed,self.table)
+                            break
+                        else:
+                            print('su carta que selecciono no es semejante, por favor considere su acción')
+                    else:
+                        break
 
 
+        # check cards from table to be grabbed
+        # player.deck_of_cards_grabbed = cards to grab
+        # remove matching cards from table
+
+    def no_more_cards(self):
+        return len(self.deck.cards) == 0 and len(self.player1.deck_of_cards) == 0 and len(self.player2.deck_of_cards) == 0
 
 
+
+
+play = Play()
+play.run()
+
+
+
+        
