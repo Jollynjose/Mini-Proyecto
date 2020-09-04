@@ -3,7 +3,7 @@ class Cards:
         self.Values = Values
         self.Suits = Suits
         
-    # TODO: change name 
+    #change name 
     def card(self):
         cards = self.Suits, self.Values
         return cards

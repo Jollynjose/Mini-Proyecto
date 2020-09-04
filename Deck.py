@@ -3,7 +3,7 @@ class Deck:
 
     def __init__(self, cards):
         self.cards = cards
-    def initialize(self): #todas las cartas que lleva un deck
+    def initialize(self): #All cards in deck
         suits , values = self.cards
         deck = []
         for suit in suits:

@@ -9,6 +9,7 @@ class Table:
     def remove_cards(self,card_in_table):
         self.cards_in_table = card_in_table
         del self.cards[self.cards_in_table]
+        
     def __str__(self):
         count = 0
         for card in self.cards:
