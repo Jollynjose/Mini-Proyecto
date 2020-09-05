@@ -19,12 +19,18 @@ class Game_of_two:
             del self.deck[x]
         return table
 
+    def create_card_on_table(self):
+        card_on_table = Table()
+
     def players_deck_of_card(self):
         for x in range(4):
-            self.playerOne.append(self.deck[x])
-            del self.deck[x]
-            self.playerTwo.append(self.deck[x])
-            del self.deck[x]
+            if self.deck:
+                self.playerOne.append(self.deck[x])
+                del self.deck[x]
+                self.playerTwo.append(self.deck[x])
+                del self.deck[x]
+            else:
+                break
         return self.playerOne, self.playerTwo
 
     # def calculate_points(self,player):
