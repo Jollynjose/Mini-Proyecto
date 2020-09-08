@@ -1,5 +1,6 @@
 import random
 from Table import *
+from Player import *
 class Game_of_two:
     def __init__(self, deck):
         self.deck = deck
@@ -15,8 +16,7 @@ class Game_of_two:
     def create_table(self):
         table = Table()
         for x in range(4):
-            table.cards.append(self.deck[x])
-            del self.deck[x]
+            table.cards.append(self.deck.pop())
         return table
 
     def create_card_on_table(self):
@@ -25,10 +25,8 @@ class Game_of_two:
     def players_deck_of_card(self):
         for x in range(4):
             if self.deck:
-                self.playerOne.append(self.deck[x])
-                del self.deck[x]
-                self.playerTwo.append(self.deck[x])
-                del self.deck[x]
+                self.playerOne.append(self.deck.pop())
+                self.playerTwo.append(self.deck.pop())
             else:
                 break
         return self.playerOne, self.playerTwo

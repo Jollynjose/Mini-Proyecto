@@ -1,7 +1,8 @@
 class Table: 
     def __init__(self):
         self.cards = []
-        self.cards_on_table = []
+        self.unions_on_table = [] # [Union [3, 3, 1, 2] value 3, Union [6, 6, 3, 3] value 6]
+        self.cards_on_table = []  # [1, 5]
     def add_card(self, card):
         self.cards.append(card)
         
