@@ -31,14 +31,11 @@ class Game_of_two:
         total_cards = len(player)
         cards_spades = 0
         for x in range(len(player)):
-            print(player[x][1])
             if player[x][1] == 1:
                 playerpoints = playerpoints + 1
             elif player[x][0] == 'Diamond' and player[x][1] == 10:
-                print('CRAZY DIAMOND')
                 playerpoints = playerpoints + 2
             elif player[x][0] == 'Spade' and player[x][1] == 2:
-                print('spade TWO')
                 playerpoints = playerpoints + 1
             elif player[x][0] == 'Spade':
                 cards_spades = cards_spades + 1

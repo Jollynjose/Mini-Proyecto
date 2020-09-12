@@ -18,14 +18,17 @@ class Play:
         self.union = Union()
         self.cards_on_table = self.table.cards
         self.cards_union = self.table.unions_on_table
-        self.playerOne = Player("Jimmy")
-        self.playerTwo = Player('Peter')
+        self.playerOne = Player(input('Insert Name Player 1 : '))
+        self.playerTwo = Player(input('Insert Name Player 2 : '))
+        cls()
        
     def run(self):
         while True:
+            
             if self.no_more_cards():
                 cls()
                 print(self.Game.check_winner(self.playerOne,self.playerTwo))
+                
                 break
             else:
                 if self.playerOne.deck_of_cards and self.playerTwo.deck_of_cards:
@@ -70,7 +73,7 @@ class Play:
                         print('Union',self.cards_union)
                         print(player.name,player.deck_of_cards)
                         print('Player cards grabbed', player.deck_of_cards_grabbed)
-                        print('Introduce 1 if you want to discard a card, ','Introduce 2 if you want to take a card on table, ', 'Introduce 3 if you want to build a union')
+                        print('Introduce 1 if you want to discard a card, ','Introduce 2 if you want to take a cards(Two on table or in union), ', 'Introduce 3 if you want to build a union or increase a union')
                         user_action = int(input('what action would you take? : '))
 
                         if user_action == 1: ##discard card
@@ -91,6 +94,7 @@ class Play:
                                 user_actionOne= int(input('Which card on the table would you take? : '))
                                 user_actionTwo = int(input('Which card in your deck would you use? : '))
                                 if self.cards_on_table[user_actionOne][1] == player.deck_of_cards[user_actionTwo][1]:
+                                    cls()
                                     player.deck_of_cards_grabbed.append(self.cards_on_table[user_actionOne])
                                     player.deck_of_cards_grabbed.append(player.deck_of_cards[user_actionTwo])
                                     self.cards_on_table = list(filter(self.checkcard,self.cards_on_table))
@@ -101,8 +105,9 @@ class Play:
                                 user_actionOne= int(input('Which card on the table would you take? : '))
                                 user_actionTwo = int(input('Which card on the table would you take? : '))
                                 user_actionThree = int(input('Which card in your deck would you use? : '))
-                                if self.cards_on_table[user_actionOne][1] + self.cards_on_table[user_actionTwo][1] <= 10 :
+                                if self.cards_on_table[user_actionOne][1] + self.cards_on_table[user_actionTwo][1] <= 13 :
                                     if self.cards_on_table[user_actionOne][1] + self.cards_on_table[user_actionTwo][1] == player.deck_of_cards[user_actionThree][1]:
+                                        cls()
                                         player.deck_of_cards_grabbed.append(self.cards_on_table[user_actionOne])
                                         player.deck_of_cards_grabbed.append(self.cards_on_table[user_actionTwo])
                                         player.deck_of_cards_grabbed.append(player.deck_of_cards[user_actionThree])
@@ -120,14 +125,18 @@ class Play:
 
                             elif user_action == 3:
                                 if self.cards_union:
-                                    print(self.union_table)
+                                    cls()
+                                    print(self.cards_union)
                                     print(list(enumerate(player.deck_of_cards)))
                                     user_actionOne = int(input('Which card in your deck would you use? : '))
-                                    if player.deck_of_cards[user_actionOne] == self.cards_union[-1]:
+                                    if player.deck_of_cards[user_actionOne][1] == self.cards_union[-1]:
+                                        cls()
                                         self.cards_union.pop()
                                         for x in self.cards_union:
                                             player.deck_of_cards_grabbed.append(x)
+                                        player.deck_of_cards_grabbed.append(player.deck_of_cards.pop(user_actionOne))
                                         self.cards_union = list(filter(lambda v : False ,self.cards_union))
+                                        break
                                     else: 
                                         cls()
                                         print( 'Wrong play')
@@ -140,6 +149,7 @@ class Play:
                             user_action = int(input(''))
                             if user_action == 1:
                                 if  self.cards_union:
+                                    cls()
                                     print('The game has not supported more unions')
                                 else:
                                     cls()
@@ -147,8 +157,8 @@ class Play:
                                     print(list(enumerate(player.deck_of_cards)))
                                     user_actionOne = int(input('How card on the table you want to make a union? : '))
                                     user_actionTwo = int(input('How card do you use in your deck cards? : '))
-                                    if self.cards_on_table[user_actionOne] + player.deck_of_cards[user_actionTwo] >= 13:
-                                        if self.cards_on_table[user_actionOne] == player.deck_of_cards[user_actionTwo]:
+                                    if self.cards_on_table[user_actionOne][1] + player.deck_of_cards[user_actionTwo][1] >= 13:
+                                        if self.cards_on_table[user_actionOne][1] == player.deck_of_cards[user_actionTwo][1]:
                                             self.cards_union.append(self.cards_on_table.pop(user_actionOne))
                                             self.cards_union.append(player.deck_of_cards.pop(user_actionTwo))
                                             self.cards_union = self.union.add_card(self.cards_union)
@@ -156,6 +166,7 @@ class Play:
                                         else:
                                             print('The value of the union must be less than 13')
                                     else:
+                                        cls()
                                         self.cards_union.append(self.cards_on_table.pop(user_actionOne))
                                         self.cards_union.append(player.deck_of_cards.pop(user_actionTwo))
                                         self.cards_union = self.union.add_card(self.cards_union)
@@ -165,15 +176,15 @@ class Play:
                             elif user_action == 2:
                                 if self.cards_union:
                                     if self.cards_union[-1] <= 10:
-                                        print('How much do you want incremate?')
-                                        print(self.cards_union)
-                                        print(list(enumerate(player.deck_of_cards)))
-                                        user_actionOne = int(input(''))
                                         if self.cards_union[0][1] == self.cards_union[1][1]:
                                             cls()
                                             print('it is a duplicate union, Repeat the play')
                                         else:
-                                            if player.deck_of_cards[user_actionOne] + self.cards_union[-1] < 14:
+                                            print('How much do you want incremate?')
+                                            print(self.cards_union)
+                                            print(list(enumerate(player.deck_of_cards)))
+                                            user_actionOne = int(input(''))
+                                            if player.deck_of_cards[user_actionOne][1] + self.cards_union[-1] < 14:
                                                 cls()
                                                 self.cards_union.append(player.deck_of_cards.pop(user_actionOne))
                                                 self.cards_union = self.union.add_card(self.cards_union)
@@ -190,16 +201,17 @@ class Play:
                         else:
                             print(list(enumerate(player.deck_of_cards)))
                             user_action = int(input('Which card would you discard? '))
+                            cls()
                             self.cards_on_table.append((player.deck_of_cards[user_action]))
                             player.deck_of_cards = list(filter(self.checktable,player.deck_of_cards))
                             break
             except:
                 cls()
-                print('ONLY INTEGERS')
+                print('Error : Only intergers or out of index')
 
 
     def no_more_cards(self):
-        return len(self.deck.cards) == 0 and len(self.player1.deck_of_cards) == 0 and len(self.player2.deck_of_cards) == 0
+        return len(self.Game.deck) == 0 and len(self.playerOne.deck_of_cards) == 0 and len(self.playerTwo.deck_of_cards) == 0
 
 play = Play()
 play.run()

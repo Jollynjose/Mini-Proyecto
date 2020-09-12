@@ -8,7 +8,6 @@ class Union:
             cards = list(filter(self.erase_value_in_card,cards))
             value = self.total(cards)
             cards.append(value)
-            print(value)
             return cards
             
 
